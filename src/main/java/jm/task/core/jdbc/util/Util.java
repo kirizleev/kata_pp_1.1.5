@@ -8,7 +8,7 @@ public class Util {
     private final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     private final String DB_URL = "jdbc:mysql://localhost:3306/pp";
     private final String DB_USERNAME = "root";
-    private final String DB_PASSWORD = "password";
+    private final String DB_PASSWORD = "jee8Boob";
 
     public Connection getConnection() {
         Connection connection = null;

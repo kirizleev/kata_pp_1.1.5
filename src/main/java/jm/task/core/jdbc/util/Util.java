@@ -3,12 +3,21 @@ package jm.task.core.jdbc.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
+
+import jm.task.core.jdbc.model.User;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.Environment;
 
 public class Util {
-    private final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private final String DB_URL = "jdbc:mysql://localhost:3306/pp";
-    private final String DB_USERNAME = "root";
-    private final String DB_PASSWORD = "jee8Boob";
+    private final static String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+    private final static String DB_URL = "jdbc:mysql://localhost:3306/pp";
+    private final static String DB_USERNAME = "root";
+    private final static String DB_PASSWORD = "jee8Boob";
+
+    public Util() {
+    }
 
     public Connection getConnection() {
         Connection connection = null;
@@ -20,5 +29,30 @@ public class Util {
             System.out.println("Not connected");
         }
         return connection;
+    }
+
+    private static SessionFactory sessionFactory;
+    public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            try {
+                Configuration configuration = new Configuration();
+                Properties settings = new Properties();
+
+                settings.put(Environment.DRIVER, DB_DRIVER);
+                settings.put(Environment.URL, DB_URL);
+                settings.put(Environment.USER, DB_USERNAME);
+                settings.put(Environment.PASS, DB_PASSWORD);
+                settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+                settings.put(Environment.HBM2DDL_AUTO, "create-drop");
+
+                configuration.setProperties(settings);
+                configuration.addAnnotatedClass(User.class);
+                sessionFactory = configuration.buildSessionFactory();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return sessionFactory;
     }
 }

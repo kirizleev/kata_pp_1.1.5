@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceImpl extends UserDaoHibernateImpl implements UserService {
-    UserDao userDaoHibernate = new UserDaoHibernateImpl();
+    private final UserDao userDaoHibernate = new UserDaoHibernateImpl();
     public void createUsersTable() throws SQLException {
         userDaoHibernate.createUsersTable();
     }
